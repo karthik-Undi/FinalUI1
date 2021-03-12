@@ -28,19 +28,42 @@ namespace FinalUI1.Controllers
         [HttpPost]
         public ActionResult Login(LoginAll loginAll)
         {
-            Resident tempResident = db.Residents.Where(res => res.ResidentEmail == loginAll.Email && res.ResidentPassword == loginAll.Password).SingleOrDefault();
-            if (tempResident != null)
+            if (loginAll.Role == "Resident")
             {
-                Session["userid"] = tempResident.ResidentID;
-                TempData["username"] = tempResident.ResidentName;
-                TempData.Keep();
-                return RedirectToAction("Index","Home");
+                Resident tempResident = db.Residents.Where(res => res.ResidentEmail == loginAll.Email && res.ResidentPassword == loginAll.Password).SingleOrDefault();
+                if (tempResident != null)
+                {
+                    Session["userid"] = tempResident.ResidentID;
+                    TempData["username"] = tempResident.ResidentName;
+                    TempData.Keep();
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    TempData["auth"] = "Invalid login Credentials";
+                }
+                return View();
+
             }
             else
             {
-                TempData["auth"] = "Invalid login Credentials"+loginAll.Role;
+                Employee tempEmployee = db.Employees.Where(res => res.EmployeeEmail == loginAll.Email && res.EmployeePassword == loginAll.Password).SingleOrDefault();
+                if (tempEmployee != null)
+                {
+                    Session["userid"] = tempEmployee.EmployeeID;
+                    TempData["username"] = tempEmployee.EmployeeName;
+                    TempData.Keep();
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    TempData["auth"] = "Invalid login Credentials";
+                }
+                return View();
+
             }
-            return View();
+
+            
         }
         /// <summary>
         /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,10 +115,9 @@ namespace FinalUI1.Controllers
             return View();
         }
 
-
+        [HttpPost]
         public ActionResult RegisterEmployee(Registration registration)
         {
-
             try
             {
                 db.Employees.Add(new Employee(
@@ -130,9 +152,9 @@ namespace FinalUI1.Controllers
         }
 
 
-        public JsonResult DoesEmailExistinEmployees(string Email)
+        public JsonResult DoesEmailExistinEmployees(string Email_Emp)
         {
-            return Json(!db.Employees.Any(emp => emp.EmployeeEmail == Email), JsonRequestBehavior.AllowGet);
+            return Json(!db.Employees.Any(emp => emp.EmployeeEmail == Email_Emp), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult IsHouseFree(int HouseNo)

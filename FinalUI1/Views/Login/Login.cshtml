@@ -32,7 +32,7 @@
                             new SelectListItem{Text="Employee",Value="Employee"}
                         }, "Logging in as",
 
-new { @class = "form-control", @id = "logintype" })
+new {required="required", @class = "form-control", @id = "logintype" })
 
 
     <br />
@@ -61,7 +61,10 @@ new { @class = "form-control", @id = "logintype" })
         <a href="forgot-password.html">I forgot my password</a>
     </p>
     <p class="mb-0">
-        @Html.ActionLink("Register a new membership", "Register", "Login")
+        @Html.ActionLink("Register a new Resident membership", "Register", "Login")
+    </p>
+    <p class="mb-0">
+        @Html.ActionLink("Register a new Employee membership", "RegisterEmployee", "Login")
     </p>
 </div>
 }

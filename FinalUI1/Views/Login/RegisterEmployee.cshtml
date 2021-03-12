@@ -1,7 +1,7 @@
 ﻿@model FinalUI1.Models.ViewModels.Registration
 
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "RegisterEmployee";
     Layout = "~/Views/Shared/_LoginResister.cshtml";
 }
 <script src="~/Scripts/jquery-3.4.1.js"></script>
@@ -15,45 +15,41 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Residents Registration</h4>
+        <h4>Employee Registration</h4>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })<br />
         @Html.EditorFor(model => model.Name, new { htmlAttributes = new { placeholder = "Name", @class = "form-control" } })
 
-        @Html.ValidationMessageFor(model => model.HouseNo, "", new { @class = "text-danger" })<br />
-        @Html.EditorFor(model => model.HouseNo, new { htmlAttributes = new { placeholder = "House No", @class = "form-control" } })
 
-
-        @Html.ValidationMessageFor(model => model.ResidenceType, "", new { @class = "text-danger" })<br />
-        @Html.DropDownListFor(model => model.ResidenceType, new List<SelectListItem>
+        @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })<br />
+        @Html.DropDownListFor(model => model.Role, new List<SelectListItem>
                        {
-                           new SelectListItem{Text="Owner",Value="Owner"},
-                           new SelectListItem{Text="Tenant",Value="Tenant"}
-                       }, "Select Residence Type",
+                           new SelectListItem{Text="Security",Value="Security"},
+                           new SelectListItem{Text="Utility",Value="Utility"},
+                           new SelectListItem{Text="Sanitation",Value="Sanitation"}
+                       }, "Select your Department",
                        new { @class = "form-control" })
 
 
         @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })<br />
         @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { placeholder = "Mobile No", @class = "form-control" } })
 
-        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })<br />
-        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { placeholder = "Email", @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Email_Emp, "", new { @class = "text-danger" })<br />
+        @Html.EditorFor(model => model.Email_Emp, new { htmlAttributes = new { placeholder = "Email", @class = "form-control" } })
 
         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })<br />
         @Html.EditorFor(model => model.Password, new { htmlAttributes = new { placeholder = "Password", @class = "form-control" } })
 
         @Html.ValidationMessageFor(model => model.CmpPassword, "", new { @class = "text-danger" })<br />
         @Html.EditorFor(model => model.CmpPassword, new { htmlAttributes = new { placeholder = "Confirm Password", @class = "form-control" } })<br />
-        @if (TempData.Peek("reg_status_res") != null)
+        @if (TempData.Peek("reg_status_emp") != null)
         {
-            <p style="color:orangered">@TempData["res"]</p>
+            <p style="color:orangered">@TempData["reg_status_emp"]</p>
         }
         <input type="submit" value="Create" class="btn btn-primary" />
-        @Html.ActionLink("Clear", "Register", "Login", new { @class = "btn btn-primary" })
+        @Html.ActionLink("Clear", "RegisterEmployee", "Login", new { @class = "btn btn-primary" })
         @Html.ActionLink("back to Login", "Login", "Login", new { @class = "btn btn-primary" })
 
     </div>
 }
-
-
