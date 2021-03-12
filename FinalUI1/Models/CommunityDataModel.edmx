@@ -1,0 +1,625 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CommunityModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Complaints">
+          <Key>
+            <PropertyRef Name="ComplaintID" />
+          </Key>
+          <Property Name="ComplaintID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResidentID" Type="int" />
+          <Property Name="ComplaintRegarding" Type="nvarchar(max)" />
+          <Property Name="ComplaintStatus" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="DashboardPosts">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PostPostedBy" Type="int" Nullable="false" />
+          <Property Name="PostTitle" Type="nvarchar(max)" />
+          <Property Name="PostType" Type="nvarchar(max)" />
+          <Property Name="PostDescription" Type="nvarchar(max)" />
+          <Property Name="PostIntendedFor" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeName" Type="nvarchar(max)" />
+          <Property Name="EmployeeRole" Type="nvarchar(max)" />
+          <Property Name="EmployeeMobileNo" Type="nvarchar(max)" />
+          <Property Name="EmployeeEmail" Type="nvarchar(max)" />
+          <Property Name="EmployeePassword" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="FriendsAndFamily">
+          <Key>
+            <PropertyRef Name="FaFID" />
+          </Key>
+          <Property Name="FaFID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FaFName" Type="nvarchar(max)" />
+          <Property Name="ResidentID" Type="int" />
+          <Property Name="FaFRelation" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="HouseList">
+          <Key>
+            <PropertyRef Name="HouseID" />
+          </Key>
+          <Property Name="HouseID" Type="int" Nullable="false" />
+          <Property Name="HouseIsFree" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Ownership">
+          <Key>
+            <PropertyRef Name="HouseID" />
+          </Key>
+          <Property Name="HouseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResidentID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentFor" Type="nvarchar(max)" />
+          <Property Name="Amount" Type="nvarchar(max)" />
+          <Property Name="ResidentID" Type="int" />
+          <Property Name="AmountPaidTo" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Residents">
+          <Key>
+            <PropertyRef Name="ResidentID" />
+          </Key>
+          <Property Name="ResidentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResidentName" Type="nvarchar(max)" />
+          <Property Name="ResidentHouseNo" Type="int" />
+          <Property Name="ResidentType" Type="nvarchar(max)" />
+          <Property Name="ResidentMobileNo" Type="nvarchar(max)" />
+          <Property Name="ResidentEmail" Type="nvarchar(max)" />
+          <Property Name="ResidentPassword" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="ServiceID" />
+          </Key>
+          <Property Name="ServiceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResidentID" Type="int" Nullable="false" />
+          <Property Name="ServiceType" Type="nvarchar(max)" />
+          <Property Name="AppointmentDateTime" Type="datetime" />
+          <Property Name="ServiceApproval" Type="nvarchar(max)" />
+          <Property Name="ServiceMessage" Type="nvarchar(max)" />
+          <Property Name="EmployeeID" Type="int" />
+        </EntityType>
+        <EntityType Name="Visitors">
+          <Key>
+            <PropertyRef Name="VisitorId" />
+          </Key>
+          <Property Name="VisitorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VisitorName" Type="nvarchar(max)" />
+          <Property Name="VisitorResaon" Type="nvarchar(max)" />
+          <Property Name="VisitStartTime" Type="datetime" />
+          <Property Name="VisitorEndTime" Type="datetime" />
+          <Property Name="ResidentID" Type="int" Nullable="false" />
+          <Property Name="VisitorEntryStatus" Type="nvarchar(max)" />
+          <Property Name="VisitorApprovedBy" Type="int" />
+        </EntityType>
+        <Association Name="FK_dbo_Complaints_dbo_Residents_ResidentID">
+          <End Role="Residents" Type="Self.Residents" Multiplicity="0..1" />
+          <End Role="Complaints" Type="Self.Complaints" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Complaints">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_FriendsAndFamily_dbo_Residents_ResidentID">
+          <End Role="Residents" Type="Self.Residents" Multiplicity="0..1" />
+          <End Role="FriendsAndFamily" Type="Self.FriendsAndFamily" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="FriendsAndFamily">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Payments_dbo_Residents_ResidentID">
+          <End Role="Residents" Type="Self.Residents" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Services_dbo_Residents_ResidentID">
+          <End Role="Residents" Type="Self.Residents" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Services" Type="Self.Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Visitors_dbo_Residents_ResidentID">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Visitors" Type="Self.Visitors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Visitors">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ownership_HouseList">
+          <End Role="HouseList" Type="Self.HouseList" Multiplicity="1" />
+          <End Role="Ownership" Type="Self.Ownership" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="HouseList">
+              <PropertyRef Name="HouseID" />
+            </Principal>
+            <Dependent Role="Ownership">
+              <PropertyRef Name="HouseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ownership_Residents">
+          <End Role="Residents" Type="Self.Residents" Multiplicity="1" />
+          <End Role="Ownership" Type="Self.Ownership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Ownership">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Services" Type="Self.Services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CommunityModelStoreContainer">
+          <EntitySet Name="Complaints" EntityType="Self.Complaints" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DashboardPosts" EntityType="Self.DashboardPosts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FriendsAndFamily" EntityType="Self.FriendsAndFamily" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HouseList" EntityType="Self.HouseList" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ownership" EntityType="Self.Ownership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Residents" EntityType="Self.Residents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Visitors" EntityType="Self.Visitors" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Complaints_dbo_Residents_ResidentID" Association="Self.FK_dbo_Complaints_dbo_Residents_ResidentID">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="Complaints" EntitySet="Complaints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_FriendsAndFamily_dbo_Residents_ResidentID" Association="Self.FK_dbo_FriendsAndFamily_dbo_Residents_ResidentID">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="FriendsAndFamily" EntitySet="FriendsAndFamily" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Payments_dbo_Residents_ResidentID" Association="Self.FK_dbo_Payments_dbo_Residents_ResidentID">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Services_dbo_Residents_ResidentID" Association="Self.FK_dbo_Services_dbo_Residents_ResidentID">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Visitors_dbo_Residents_ResidentID" Association="Self.FK_dbo_Visitors_dbo_Residents_ResidentID">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Visitors" EntitySet="Visitors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ownership_HouseList" Association="Self.FK_Ownership_HouseList">
+            <End Role="HouseList" EntitySet="HouseList" />
+            <End Role="Ownership" EntitySet="Ownership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ownership_Residents" Association="Self.FK_Ownership_Residents">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="Ownership" EntitySet="Ownership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Employees" Association="Self.FK_Services_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CommunityModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Complaint">
+          <Key>
+            <PropertyRef Name="ComplaintID" />
+          </Key>
+          <Property Name="ComplaintID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResidentID" Type="Int32" />
+          <Property Name="ComplaintRegarding" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ComplaintStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Resident" Relationship="Self.FK_dbo_Complaints_dbo_Residents_ResidentID" FromRole="Complaints" ToRole="Residents" />
+        </EntityType>
+        <EntityType Name="DashboardPost">
+          <Key>
+            <PropertyRef Name="PostID" />
+          </Key>
+          <Property Name="PostID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostPostedBy" Type="Int32" Nullable="false" />
+          <Property Name="PostTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostIntendedFor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeRole" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeMobileNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeePassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Visitors" Relationship="Self.FK_dbo_Visitors_dbo_Residents_ResidentID" FromRole="Employees" ToRole="Visitors" />
+          <NavigationProperty Name="Services" Relationship="Self.FK_Services_Employees" FromRole="Employees" ToRole="Services" />
+        </EntityType>
+        <EntityType Name="FriendsAndFamily">
+          <Key>
+            <PropertyRef Name="FaFID" />
+          </Key>
+          <Property Name="FaFID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FaFName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResidentID" Type="Int32" />
+          <Property Name="FaFRelation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Resident" Relationship="Self.FK_dbo_FriendsAndFamily_dbo_Residents_ResidentID" FromRole="FriendsAndFamily" ToRole="Residents" />
+        </EntityType>
+        <EntityType Name="HouseList">
+          <Key>
+            <PropertyRef Name="HouseID" />
+          </Key>
+          <Property Name="HouseID" Type="Int32" Nullable="false" />
+          <Property Name="HouseIsFree" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Resident" Relationship="Self.Ownership" FromRole="HouseList" ToRole="Residents" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentFor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResidentID" Type="Int32" />
+          <Property Name="AmountPaidTo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Resident" Relationship="Self.FK_dbo_Payments_dbo_Residents_ResidentID" FromRole="Payments" ToRole="Residents" />
+        </EntityType>
+        <EntityType Name="Resident">
+          <Key>
+            <PropertyRef Name="ResidentID" />
+          </Key>
+          <Property Name="ResidentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResidentName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResidentHouseNo" Type="Int32" />
+          <Property Name="ResidentType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResidentMobileNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResidentEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ResidentPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Complaints" Relationship="Self.FK_dbo_Complaints_dbo_Residents_ResidentID" FromRole="Residents" ToRole="Complaints" />
+          <NavigationProperty Name="FriendsAndFamilies" Relationship="Self.FK_dbo_FriendsAndFamily_dbo_Residents_ResidentID" FromRole="Residents" ToRole="FriendsAndFamily" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_dbo_Payments_dbo_Residents_ResidentID" FromRole="Residents" ToRole="Payments" />
+          <NavigationProperty Name="Services" Relationship="Self.FK_dbo_Services_dbo_Residents_ResidentID" FromRole="Residents" ToRole="Services" />
+          <NavigationProperty Name="HouseLists" Relationship="Self.Ownership" FromRole="Residents" ToRole="HouseList" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ServiceID" />
+          </Key>
+          <Property Name="ServiceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResidentID" Type="Int32" Nullable="false" />
+          <Property Name="ServiceType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AppointmentDateTime" Type="DateTime" Precision="3" />
+          <Property Name="ServiceApproval" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeID" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Services_Employees" FromRole="Services" ToRole="Employees" />
+          <NavigationProperty Name="Resident" Relationship="Self.FK_dbo_Services_dbo_Residents_ResidentID" FromRole="Services" ToRole="Residents" />
+        </EntityType>
+        <EntityType Name="Visitor">
+          <Key>
+            <PropertyRef Name="VisitorId" />
+          </Key>
+          <Property Name="VisitorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VisitorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VisitorResaon" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VisitStartTime" Type="DateTime" Precision="3" />
+          <Property Name="VisitorEndTime" Type="DateTime" Precision="3" />
+          <Property Name="ResidentID" Type="Int32" Nullable="false" />
+          <Property Name="VisitorEntryStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="VisitorApprovedBy" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_dbo_Visitors_dbo_Residents_ResidentID" FromRole="Visitors" ToRole="Employees" />
+        </EntityType>
+        <Association Name="FK_dbo_Complaints_dbo_Residents_ResidentID">
+          <End Role="Residents" Type="Self.Resident" Multiplicity="0..1" />
+          <End Role="Complaints" Type="Self.Complaint" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Complaints">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Visitors_dbo_Residents_ResidentID">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Visitors" Type="Self.Visitor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Visitors">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Services_Employees">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Services" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_FriendsAndFamily_dbo_Residents_ResidentID">
+          <End Role="Residents" Type="Self.Resident" Multiplicity="0..1" />
+          <End Role="FriendsAndFamily" Type="Self.FriendsAndFamily" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="FriendsAndFamily">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Payments_dbo_Residents_ResidentID">
+          <End Role="Residents" Type="Self.Resident" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Services_dbo_Residents_ResidentID">
+          <End Role="Residents" Type="Self.Resident" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Services" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Services">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Ownership">
+          <End Role="HouseList" Type="Self.HouseList" Multiplicity="*" />
+          <End Role="Residents" Type="Self.Resident" Multiplicity="0..1" />
+        </Association>
+        <EntityContainer Name="Community" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Complaints" EntityType="Self.Complaint" />
+          <EntitySet Name="DashboardPosts" EntityType="Self.DashboardPost" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="FriendsAndFamilies" EntityType="Self.FriendsAndFamily" />
+          <EntitySet Name="HouseLists" EntityType="Self.HouseList" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="Residents" EntityType="Self.Resident" />
+          <EntitySet Name="Services" EntityType="Self.Service" />
+          <EntitySet Name="Visitors" EntityType="Self.Visitor" />
+          <AssociationSet Name="FK_dbo_Complaints_dbo_Residents_ResidentID" Association="Self.FK_dbo_Complaints_dbo_Residents_ResidentID">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="Complaints" EntitySet="Complaints" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Visitors_dbo_Residents_ResidentID" Association="Self.FK_dbo_Visitors_dbo_Residents_ResidentID">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Visitors" EntitySet="Visitors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Services_Employees" Association="Self.FK_Services_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_FriendsAndFamily_dbo_Residents_ResidentID" Association="Self.FK_dbo_FriendsAndFamily_dbo_Residents_ResidentID">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="FriendsAndFamily" EntitySet="FriendsAndFamilies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Payments_dbo_Residents_ResidentID" Association="Self.FK_dbo_Payments_dbo_Residents_ResidentID">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Services_dbo_Residents_ResidentID" Association="Self.FK_dbo_Services_dbo_Residents_ResidentID">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="Ownership" Association="Self.Ownership">
+            <End Role="HouseList" EntitySet="HouseLists" />
+            <End Role="Residents" EntitySet="Residents" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CommunityModelStoreContainer" CdmEntityContainer="Community">
+          <EntitySetMapping Name="Complaints">
+            <EntityTypeMapping TypeName="CommunityModel.Complaint">
+              <MappingFragment StoreEntitySet="Complaints">
+                <ScalarProperty Name="ComplaintID" ColumnName="ComplaintID" />
+                <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
+                <ScalarProperty Name="ComplaintRegarding" ColumnName="ComplaintRegarding" />
+                <ScalarProperty Name="ComplaintStatus" ColumnName="ComplaintStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DashboardPosts">
+            <EntityTypeMapping TypeName="CommunityModel.DashboardPost">
+              <MappingFragment StoreEntitySet="DashboardPosts">
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="PostPostedBy" ColumnName="PostPostedBy" />
+                <ScalarProperty Name="PostTitle" ColumnName="PostTitle" />
+                <ScalarProperty Name="PostType" ColumnName="PostType" />
+                <ScalarProperty Name="PostDescription" ColumnName="PostDescription" />
+                <ScalarProperty Name="PostIntendedFor" ColumnName="PostIntendedFor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="CommunityModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="EmployeeRole" ColumnName="EmployeeRole" />
+                <ScalarProperty Name="EmployeeMobileNo" ColumnName="EmployeeMobileNo" />
+                <ScalarProperty Name="EmployeeEmail" ColumnName="EmployeeEmail" />
+                <ScalarProperty Name="EmployeePassword" ColumnName="EmployeePassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FriendsAndFamilies">
+            <EntityTypeMapping TypeName="CommunityModel.FriendsAndFamily">
+              <MappingFragment StoreEntitySet="FriendsAndFamily">
+                <ScalarProperty Name="FaFID" ColumnName="FaFID" />
+                <ScalarProperty Name="FaFName" ColumnName="FaFName" />
+                <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
+                <ScalarProperty Name="FaFRelation" ColumnName="FaFRelation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HouseLists">
+            <EntityTypeMapping TypeName="CommunityModel.HouseList">
+              <MappingFragment StoreEntitySet="HouseList">
+                <ScalarProperty Name="HouseID" ColumnName="HouseID" />
+                <ScalarProperty Name="HouseIsFree" ColumnName="HouseIsFree" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="CommunityModel.Payment">
+              <MappingFragment StoreEntitySet="Payments">
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="PaymentFor" ColumnName="PaymentFor" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
+                <ScalarProperty Name="AmountPaidTo" ColumnName="AmountPaidTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Residents">
+            <EntityTypeMapping TypeName="CommunityModel.Resident">
+              <MappingFragment StoreEntitySet="Residents">
+                <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
+                <ScalarProperty Name="ResidentName" ColumnName="ResidentName" />
+                <ScalarProperty Name="ResidentHouseNo" ColumnName="ResidentHouseNo" />
+                <ScalarProperty Name="ResidentType" ColumnName="ResidentType" />
+                <ScalarProperty Name="ResidentMobileNo" ColumnName="ResidentMobileNo" />
+                <ScalarProperty Name="ResidentEmail" ColumnName="ResidentEmail" />
+                <ScalarProperty Name="ResidentPassword" ColumnName="ResidentPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Services">
+            <EntityTypeMapping TypeName="CommunityModel.Service">
+              <MappingFragment StoreEntitySet="Services">
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
+                <ScalarProperty Name="ServiceType" ColumnName="ServiceType" />
+                <ScalarProperty Name="AppointmentDateTime" ColumnName="AppointmentDateTime" />
+                <ScalarProperty Name="ServiceApproval" ColumnName="ServiceApproval" />
+                <ScalarProperty Name="ServiceMessage" ColumnName="ServiceMessage" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Visitors">
+            <EntityTypeMapping TypeName="CommunityModel.Visitor">
+              <MappingFragment StoreEntitySet="Visitors">
+                <ScalarProperty Name="VisitorId" ColumnName="VisitorId" />
+                <ScalarProperty Name="VisitorName" ColumnName="VisitorName" />
+                <ScalarProperty Name="VisitorResaon" ColumnName="VisitorResaon" />
+                <ScalarProperty Name="VisitStartTime" ColumnName="VisitStartTime" />
+                <ScalarProperty Name="VisitorEndTime" ColumnName="VisitorEndTime" />
+                <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
+                <ScalarProperty Name="VisitorEntryStatus" ColumnName="VisitorEntryStatus" />
+                <ScalarProperty Name="VisitorApprovedBy" ColumnName="VisitorApprovedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Ownership" TypeName="CommunityModel.Ownership" StoreEntitySet="Ownership">
+            <EndProperty Name="HouseList">
+              <ScalarProperty Name="HouseID" ColumnName="HouseID" />
+            </EndProperty>
+            <EndProperty Name="Residents">
+              <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

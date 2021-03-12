@@ -1,0 +1,59 @@
+﻿@model FinalUI1.Models.ViewModels.Registration
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LoginResister.cshtml";
+}
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Residents Registration</h4>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })<br />
+        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { placeholder = "Name", @class = "form-control" } })
+
+        @Html.ValidationMessageFor(model => model.HouseNo, "", new { @class = "text-danger" })<br />
+        @Html.EditorFor(model => model.HouseNo, new { htmlAttributes = new { placeholder = "House No", @class = "form-control" } })
+
+
+        @Html.ValidationMessageFor(model => model.ResidenceType, "", new { @class = "text-danger" })<br />
+        @Html.DropDownListFor(model => model.ResidenceType, new List<SelectListItem>
+                       {
+                           new SelectListItem{Text="Owner",Value="Owner"},
+                           new SelectListItem{Text="Tenant",Value="Tenant"}
+                       }, "Select Residence Type",
+                       new { @class = "form-control" })
+
+
+        @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })<br />
+        @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { placeholder = "Mobile No", @class = "form-control" } })
+
+        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })<br />
+        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { placeholder = "Email", @class = "form-control" } })
+
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })<br />
+        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { placeholder = "Password", @class = "form-control" } })
+
+        @Html.ValidationMessageFor(model => model.CmpPassword, "", new { @class = "text-danger" })<br />
+        @Html.EditorFor(model => model.CmpPassword, new { htmlAttributes = new { placeholder = "Confirm Password", @class = "form-control" } })<br />
+        @if (TempData.Peek("succ") != null)
+        {
+            <p style="color:orangered">@TempData["succ"]</p>
+        }
+        <input type="submit" value="Create" class="btn btn-primary" />
+        @Html.ActionLink("Clear", "Register", "Login", new { @class = "btn btn-primary" })
+        @Html.ActionLink("back to Login", "Login", "Login", new { @class = "btn btn-primary" })
+
+    </div>
+}
+
+
