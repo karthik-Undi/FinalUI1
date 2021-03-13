@@ -124,7 +124,6 @@ namespace FinalUI1.Controllers
                 registration.Name,
                 registration.Password,
                 registration.Email_Emp,
-                registration.ResidenceType,
                 registration.MobileNo,
                 registration.Role
                 ));

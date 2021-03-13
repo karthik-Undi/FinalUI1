@@ -15,12 +15,13 @@
         <EntityTypeShape EntityType="CommunityModel.Service" Width="1.5" PointX="8.25" PointY="6.625" IsExpanded="true" />
         <EntityTypeShape EntityType="CommunityModel.Visitor" Width="1.5" PointX="8.25" PointY="2.5" IsExpanded="true" />
         <AssociationConnector Association="CommunityModel.FK_dbo_Complaints_dbo_Residents_ResidentID" ManuallyRouted="false" />
-        <AssociationConnector Association="CommunityModel.FK_dbo_Visitors_dbo_Residents_ResidentID" ManuallyRouted="false" />
         <AssociationConnector Association="CommunityModel.FK_Services_Employees" ManuallyRouted="false" />
         <AssociationConnector Association="CommunityModel.FK_dbo_FriendsAndFamily_dbo_Residents_ResidentID" ManuallyRouted="false" />
         <AssociationConnector Association="CommunityModel.FK_dbo_Payments_dbo_Residents_ResidentID" ManuallyRouted="false" />
         <AssociationConnector Association="CommunityModel.FK_dbo_Services_dbo_Residents_ResidentID" ManuallyRouted="false" />
         <AssociationConnector Association="CommunityModel.Ownership" ManuallyRouted="false" />
+        <AssociationConnector Association="CommunityModel.FK_dbo_Visitors_dbo_Residents_ResidentID1" />
+        <AssociationConnector Association="CommunityModel.FK_Visitors_Residents" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

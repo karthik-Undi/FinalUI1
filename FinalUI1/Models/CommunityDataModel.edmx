@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CommunityModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CommunityModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Complaints">
           <Key>
             <PropertyRef Name="ComplaintID" />
@@ -156,8 +156,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_Visitors_dbo_Residents_ResidentID">
-          <End Role="Employees" Type="Self.Employees" Multiplicity="1">
+        <Association Name="FK_dbo_Visitors_dbo_Employees_EmployeeID">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="Visitors" Type="Self.Visitors" Multiplicity="*" />
@@ -166,7 +166,7 @@
               <PropertyRef Name="EmployeeID" />
             </Principal>
             <Dependent Role="Visitors">
-              <PropertyRef Name="ResidentID" />
+              <PropertyRef Name="VisitorApprovedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -206,6 +206,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Visitors_Residents">
+          <End Role="Residents" Type="Self.Residents" Multiplicity="1" />
+          <End Role="Visitors" Type="Self.Visitors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Visitors">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="CommunityModelStoreContainer">
           <EntitySet Name="Complaints" EntityType="Self.Complaints" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DashboardPosts" EntityType="Self.DashboardPosts" Schema="dbo" store:Type="Tables" />
@@ -233,7 +245,7 @@
             <End Role="Residents" EntitySet="Residents" />
             <End Role="Services" EntitySet="Services" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Visitors_dbo_Residents_ResidentID" Association="Self.FK_dbo_Visitors_dbo_Residents_ResidentID">
+          <AssociationSet Name="FK_dbo_Visitors_dbo_Employees_EmployeeID" Association="Self.FK_dbo_Visitors_dbo_Employees_EmployeeID">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Visitors" EntitySet="Visitors" />
           </AssociationSet>
@@ -249,9 +261,12 @@
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Services" EntitySet="Services" />
           </AssociationSet>
+          <AssociationSet Name="FK_Visitors_Residents" Association="Self.FK_Visitors_Residents">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="Visitors" EntitySet="Visitors" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CommunityModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -286,8 +301,8 @@
           <Property Name="EmployeeMobileNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EmployeeEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EmployeePassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Visitors" Relationship="Self.FK_dbo_Visitors_dbo_Residents_ResidentID" FromRole="Employees" ToRole="Visitors" />
           <NavigationProperty Name="Services" Relationship="Self.FK_Services_Employees" FromRole="Employees" ToRole="Services" />
+          <NavigationProperty Name="Visitors1" Relationship="CommunityModel.FK_dbo_Visitors_dbo_Residents_ResidentID1" FromRole="Employee" ToRole="Visitor" />
         </EntityType>
         <EntityType Name="FriendsAndFamily">
           <Key>
@@ -334,6 +349,7 @@
           <NavigationProperty Name="Payments" Relationship="Self.FK_dbo_Payments_dbo_Residents_ResidentID" FromRole="Residents" ToRole="Payments" />
           <NavigationProperty Name="Services" Relationship="Self.FK_dbo_Services_dbo_Residents_ResidentID" FromRole="Residents" ToRole="Services" />
           <NavigationProperty Name="HouseLists" Relationship="Self.Ownership" FromRole="Residents" ToRole="HouseList" />
+          <NavigationProperty Name="Visitors" Relationship="CommunityModel.FK_Visitors_Residents" FromRole="Resident" ToRole="Visitor" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -361,7 +377,8 @@
           <Property Name="ResidentID" Type="Int32" Nullable="false" />
           <Property Name="VisitorEntryStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="VisitorApprovedBy" Type="Int32" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_dbo_Visitors_dbo_Residents_ResidentID" FromRole="Visitors" ToRole="Employees" />
+          <NavigationProperty Name="Employee1" Relationship="CommunityModel.FK_dbo_Visitors_dbo_Residents_ResidentID1" FromRole="Visitor" ToRole="Employee" />
+          <NavigationProperty Name="Resident" Relationship="CommunityModel.FK_Visitors_Residents" FromRole="Visitor" ToRole="Resident" />
         </EntityType>
         <Association Name="FK_dbo_Complaints_dbo_Residents_ResidentID">
           <End Role="Residents" Type="Self.Resident" Multiplicity="0..1" />
@@ -371,20 +388,6 @@
               <PropertyRef Name="ResidentID" />
             </Principal>
             <Dependent Role="Complaints">
-              <PropertyRef Name="ResidentID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_Visitors_dbo_Residents_ResidentID">
-          <End Role="Employees" Type="Self.Employee" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Visitors" Type="Self.Visitor" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Employees">
-              <PropertyRef Name="EmployeeID" />
-            </Principal>
-            <Dependent Role="Visitors">
               <PropertyRef Name="ResidentID" />
             </Dependent>
           </ReferentialConstraint>
@@ -457,10 +460,6 @@
             <End Role="Residents" EntitySet="Residents" />
             <End Role="Complaints" EntitySet="Complaints" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Visitors_dbo_Residents_ResidentID" Association="Self.FK_dbo_Visitors_dbo_Residents_ResidentID">
-            <End Role="Employees" EntitySet="Employees" />
-            <End Role="Visitors" EntitySet="Visitors" />
-          </AssociationSet>
           <AssociationSet Name="FK_Services_Employees" Association="Self.FK_Services_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Services" EntitySet="Services" />
@@ -481,7 +480,41 @@
             <End Role="HouseList" EntitySet="HouseLists" />
             <End Role="Residents" EntitySet="Residents" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_Visitors_dbo_Residents_ResidentID1" Association="CommunityModel.FK_dbo_Visitors_dbo_Residents_ResidentID1">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Visitor" EntitySet="Visitors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visitors_Residents" Association="CommunityModel.FK_Visitors_Residents">
+            <End Role="Resident" EntitySet="Residents" />
+            <End Role="Visitor" EntitySet="Visitors" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_dbo_Visitors_dbo_Residents_ResidentID1">
+          <End Type="CommunityModel.Employee" Role="Employee" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CommunityModel.Visitor" Role="Visitor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Visitor">
+              <PropertyRef Name="VisitorApprovedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visitors_Residents">
+          <End Type="CommunityModel.Resident" Role="Resident" Multiplicity="1" />
+          <End Type="CommunityModel.Visitor" Role="Visitor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resident">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Visitor">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

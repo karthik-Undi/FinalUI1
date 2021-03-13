@@ -23,6 +23,7 @@ namespace FinalUI1.Models
         public string VisitorEntryStatus { get; set; }
         public Nullable<int> VisitorApprovedBy { get; set; }
     
-        public virtual Employee Employee { get; set; }
+        public virtual Employee Employee1 { get; set; }
+        public virtual Resident Resident { get; set; }
     }
 }

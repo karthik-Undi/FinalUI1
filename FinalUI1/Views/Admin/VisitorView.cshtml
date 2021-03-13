@@ -1,0 +1,107 @@
+﻿@model FinalUI1.Models.ViewModels.OneForAll
+
+@{
+    ViewBag.Title = "VisitorView";
+    Layout = "~/Views/Shared/_big.cshtml";
+}
+
+<h2>VisitorView</h2>
+
+
+<div class="card">
+
+    <!-- /.card-header -->
+
+    <div class="card-header border-transparent">
+        <h3 class="card-title">Employee Details</h3>
+
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.card-header -->
+
+
+
+
+    <div class="card-body">
+        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                        <tr>
+                            <th>
+                                Visitor Name
+                            </th>
+                            <th>
+                                Reason for visit
+                            </th>
+                            <th>
+                                Permission start Time
+                            </th>
+                            <th>
+                                Permission end time
+                            </th>
+                            <th>
+                                Entry status
+                            </th>
+                            <th>
+                                Permitted in by
+                            </th>
+                            <th>
+                                Approved by
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model.visitor)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VisitorName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VisitorResaon)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VisitStartTime.Value.Date)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VisitorEndTime)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.VisitorEntryStatus)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Resident.ResidentName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Employee1.EmployeeName)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.VisitorId }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.VisitorId }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.VisitorId })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
