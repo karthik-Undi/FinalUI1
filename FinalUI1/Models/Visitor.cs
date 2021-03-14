@@ -14,6 +14,18 @@ namespace FinalUI1.Models
     
     public partial class Visitor
     {
+        public Visitor(string visitorName, string visitorResaon, DateTime? visitStartTime, DateTime? visitorEndTime, int residentID)
+        {
+            VisitorName = visitorName;
+            VisitorResaon = visitorResaon;
+            VisitStartTime = visitStartTime;
+            VisitorEndTime = visitorEndTime;
+            ResidentID = residentID;
+        }
+        public Visitor()
+        {
+
+        }
         public int VisitorId { get; set; }
         public string VisitorName { get; set; }
         public string VisitorResaon { get; set; }

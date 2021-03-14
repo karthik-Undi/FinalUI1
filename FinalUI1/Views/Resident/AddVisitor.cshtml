@@ -1,0 +1,74 @@
+﻿@model FinalUI1.Models.Visitor
+
+@{
+    ViewBag.Title = "AddVisitor";
+    Layout = "~/Views/Shared/_ResidentLayout.cshtml";
+}
+
+
+<div class="col-md-6">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Add a Visitor</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="form-group">
+
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <p style="color:coral">Note: If you are'nt sure about the departure, then only fill the arrival details</p>
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            <label>Visitor Name</label><br />
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.VisitorName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.VisitorName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Reason for visiting</label><br />
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.VisitorResaon, new { required = "required", htmlAttributes = new {  @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.VisitorResaon, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Visit starts at</label><br />
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.VisitStartTime, new {required="required", type = "datetime-local" })
+                                @Html.ValidationMessageFor(model => model.VisitStartTime, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Visit ends at</label><br />
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(model => model.VisitorEndTime, new { type = "datetime-local" })
+                                @Html.ValidationMessageFor(model => model.VisitorEndTime, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -213,6 +213,8 @@
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LogoutController.cs" />
+    <Compile Include="Controllers\ResidentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2455,6 +2457,7 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Views\Resident\DeletePost.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2516,10 +2519,29 @@
     <Content Include="Views\Admin\CreatePost.cshtml" />
     <Content Include="Views\Admin\DeletePosts.cshtml" />
     <Content Include="Views\Admin\Delete.cshtml" />
+    <Content Include="Views\Shared\_ResidentLayout.cshtml" />
+    <Content Include="Views\Resident\ResidentDashboard.cshtml" />
+    <Content Include="Views\Resident\AddVisitor.cshtml" />
+    <Content Include="Views\Resident\NoRecords.cshtml" />
+    <Content Include="Views\Resident\VieworDeleteVisitor.cshtml" />
+    <Content Include="Views\Resident\Delete.cshtml" />
+    <Content Include="Views\Resident\VieworDeletePosts.cshtml" />
+    <Content Include="Views\Resident\BookService.cshtml" />
+    <Content Include="Views\Resident\VieworDeleteServices.cshtml" />
+    <Content Include="Views\Resident\DeleteService.cshtml" />
+    <Content Include="Views\Resident\RaiseComplaint.cshtml" />
+    <Content Include="Views\Resident\VieworDeleteComplaints.cshtml" />
+    <Content Include="Views\Resident\DeleteComplaints.cshtml" />
+    <Content Include="Views\Resident\CreatePost.cshtml" />
+    <Content Include="Views\Resident\DeleteVisitor.cshtml" />
+    <Content Include="Views\Resident\AddFamily.cshtml" />
+    <Content Include="Views\Resident\VieworDeleteFoF.cshtml" />
+    <Content Include="Views\Resident\DeleteFoF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Export\" />
+    <Folder Include="Views\Logout\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
