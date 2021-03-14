@@ -1,0 +1,39 @@
+﻿@model FinalUI1.Models.ViewModels.OneForAll
+
+
+@foreach (var item in Model.DashboardPost)
+{
+
+    <div class="col-md-6">
+        <!-- Box Comment -->
+        <div style="width:1220px;" class="card card-widget">
+            <div style="background-color:powderblue" class="card-header">
+                <div class="user-block">
+                    <span style="margin-left:0px;" class="username">
+                        @Html.DisplayFor(modelItem => item.Resident.ResidentName)
+                    </span>
+                    <span style="margin-left:0px;" class="description">Shared at - @Html.DisplayFor(modelItem => item.PostTime). with @Html.DisplayFor(modelItem => item.PostIntendedFor)s</span>
+                </div>
+                <!-- /.user-block -->
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <!-- /.card-tools -->
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <h6>Post Subject - @Html.DisplayFor(modelItem => item.PostType)</h6>
+                <h6>@Html.DisplayFor(modelItem => item.PostTitle)</h6>
+                <!-- post text -->
+
+                <p>@Html.DisplayFor(modelItem => item.PostDescription)</p>
+
+            </div>
+        </div>
+    </div>
+}

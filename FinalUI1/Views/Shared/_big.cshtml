@@ -47,7 +47,7 @@
                         <img src="~/Content/unlock.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">user name</a>
+                        <a href="#" class="d-block">Chief of Security</a>
                     </div>
                 </div>
 
@@ -55,54 +55,28 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Resident Details
-                                    @*<span class="right badge badge-danger">New</span>*@
-                                </p>
-                            </a>
+                            @Html.ActionLink("Home", "AdminDashboard", "Admin", new { @class = "nav-link" })
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Employee Details
-                                    @*<span class="right badge badge-danger">New</span>*@
-                                </p>
-                            </a>
+                            @Html.ActionLink("Approve Registrations", "ApproveRegistrations", "Admin", new { @class = "nav-link" })
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Complaints
-                                    @*<span class="right badge badge-danger">New</span>*@
-                                </p>
-                            </a>
+                            @Html.ActionLink("Resident Details", "ResidentView", "Admin", new { @class = "nav-link" })
+                        </li>
+
+                        <li class="nav-item">
+                            @Html.ActionLink("Employee Details", "EmployeeView", "Admin", new { @class = "nav-link" })
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Service Orders
-                                    @*<span class="right badge badge-danger">New</span>*@
-                                </p>
-                            </a>
+                            @Html.ActionLink("Complaints", "ComplaintView", "Admin", new { @class = "nav-link" })
+                        </li>
+
+                        <li class="nav-item">
+                            @Html.ActionLink("Visitor Log", "VisitorView", "Admin", new { @class = "nav-link" })
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Security Alerts
-                                    @*<span class="right badge badge-danger">New</span>*@
-                                </p>
-                            </a>
+                            @Html.ActionLink("Resident Family details", "FriendsandFamilyView", "Admin", new { @class = "nav-link" })
                         </li>
-
-
-
-
 
                     </ul>
                 </nav>
@@ -130,7 +104,7 @@
                 Community Gate
             </div>
             <!-- Default to the left -->
-            <strong>put stuff here too</strong>idk
+            <strong>Logged in as @TempData.Peek("LoginType")</strong>
         </footer>
     </div>
 

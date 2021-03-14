@@ -24,6 +24,7 @@
           <Property Name="PostType" Type="nvarchar(max)" />
           <Property Name="PostDescription" Type="nvarchar(max)" />
           <Property Name="PostIntendedFor" Type="nvarchar(max)" />
+          <Property Name="PostTime" Type="datetime" />
         </EntityType>
         <EntityType Name="Employees">
           <Key>
@@ -35,6 +36,7 @@
           <Property Name="EmployeeMobileNo" Type="nvarchar(max)" />
           <Property Name="EmployeeEmail" Type="nvarchar(max)" />
           <Property Name="EmployeePassword" Type="nvarchar(max)" />
+          <Property Name="isApproved" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="FriendsAndFamily">
           <Key>
@@ -80,6 +82,7 @@
           <Property Name="ResidentMobileNo" Type="nvarchar(max)" />
           <Property Name="ResidentEmail" Type="nvarchar(max)" />
           <Property Name="ResidentPassword" Type="nvarchar(max)" />
+          <Property Name="isApproved" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Services">
           <Key>
@@ -106,6 +109,18 @@
           <Property Name="VisitorEntryStatus" Type="nvarchar(max)" />
           <Property Name="VisitorApprovedBy" Type="int" />
         </EntityType>
+        <Association Name="FK_DashboardPosts_Residents">
+          <End Role="Residents" Type="Self.Residents" Multiplicity="1" />
+          <End Role="DashboardPosts" Type="Self.DashboardPosts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="DashboardPosts">
+              <PropertyRef Name="PostPostedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_Complaints_dbo_Residents_ResidentID">
           <End Role="Residents" Type="Self.Residents" Multiplicity="0..1" />
           <End Role="Complaints" Type="Self.Complaints" Multiplicity="*" />
@@ -229,6 +244,10 @@
           <EntitySet Name="Residents" EntityType="Self.Residents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Visitors" EntityType="Self.Visitors" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DashboardPosts_Residents" Association="Self.FK_DashboardPosts_Residents">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="DashboardPosts" EntitySet="DashboardPosts" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_Complaints_dbo_Residents_ResidentID" Association="Self.FK_dbo_Complaints_dbo_Residents_ResidentID">
             <End Role="Residents" EntitySet="Residents" />
             <End Role="Complaints" EntitySet="Complaints" />
@@ -290,6 +309,8 @@
           <Property Name="PostType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PostDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PostIntendedFor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Resident" Relationship="CommunityModel.FK_DashboardPosts_Residents" FromRole="DashboardPost" ToRole="Resident" />
+          <Property Name="PostTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -303,6 +324,7 @@
           <Property Name="EmployeePassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Services" Relationship="Self.FK_Services_Employees" FromRole="Employees" ToRole="Services" />
           <NavigationProperty Name="Visitors1" Relationship="CommunityModel.FK_dbo_Visitors_dbo_Residents_ResidentID1" FromRole="Employee" ToRole="Visitor" />
+          <Property Name="isApproved" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="FriendsAndFamily">
           <Key>
@@ -350,6 +372,8 @@
           <NavigationProperty Name="Services" Relationship="Self.FK_dbo_Services_dbo_Residents_ResidentID" FromRole="Residents" ToRole="Services" />
           <NavigationProperty Name="HouseLists" Relationship="Self.Ownership" FromRole="Residents" ToRole="HouseList" />
           <NavigationProperty Name="Visitors" Relationship="CommunityModel.FK_Visitors_Residents" FromRole="Resident" ToRole="Visitor" />
+          <NavigationProperty Name="DashboardPosts" Relationship="CommunityModel.FK_DashboardPosts_Residents" FromRole="Resident" ToRole="DashboardPost" />
+          <Property Name="isApproved" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Service">
           <Key>
@@ -488,6 +512,10 @@
             <End Role="Resident" EntitySet="Residents" />
             <End Role="Visitor" EntitySet="Visitors" />
           </AssociationSet>
+          <AssociationSet Name="FK_DashboardPosts_Residents" Association="CommunityModel.FK_DashboardPosts_Residents">
+            <End Role="Resident" EntitySet="Residents" />
+            <End Role="DashboardPost" EntitySet="DashboardPosts" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_dbo_Visitors_dbo_Residents_ResidentID1">
           <End Type="CommunityModel.Employee" Role="Employee" Multiplicity="0..1">
@@ -515,6 +543,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DashboardPosts_Residents">
+          <End Type="CommunityModel.Resident" Role="Resident" Multiplicity="1" />
+          <End Type="CommunityModel.DashboardPost" Role="DashboardPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Resident">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="DashboardPost">
+              <PropertyRef Name="PostPostedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -534,6 +574,7 @@
           <EntitySetMapping Name="DashboardPosts">
             <EntityTypeMapping TypeName="CommunityModel.DashboardPost">
               <MappingFragment StoreEntitySet="DashboardPosts">
+                <ScalarProperty Name="PostTime" ColumnName="PostTime" />
                 <ScalarProperty Name="PostID" ColumnName="PostID" />
                 <ScalarProperty Name="PostPostedBy" ColumnName="PostPostedBy" />
                 <ScalarProperty Name="PostTitle" ColumnName="PostTitle" />
@@ -546,6 +587,7 @@
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="CommunityModel.Employee">
               <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="EmployeeRole" ColumnName="EmployeeRole" />
@@ -587,6 +629,7 @@
           <EntitySetMapping Name="Residents">
             <EntityTypeMapping TypeName="CommunityModel.Resident">
               <MappingFragment StoreEntitySet="Residents">
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
                 <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
                 <ScalarProperty Name="ResidentName" ColumnName="ResidentName" />
                 <ScalarProperty Name="ResidentHouseNo" ColumnName="ResidentHouseNo" />

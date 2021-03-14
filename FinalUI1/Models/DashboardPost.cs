@@ -20,5 +20,8 @@ namespace FinalUI1.Models
         public string PostType { get; set; }
         public string PostDescription { get; set; }
         public string PostIntendedFor { get; set; }
+        public Nullable<System.DateTime> PostTime { get; set; }
+    
+        public virtual Resident Resident { get; set; }
     }
 }

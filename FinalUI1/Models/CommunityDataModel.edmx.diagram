@@ -22,6 +22,7 @@
         <AssociationConnector Association="CommunityModel.Ownership" ManuallyRouted="false" />
         <AssociationConnector Association="CommunityModel.FK_dbo_Visitors_dbo_Residents_ResidentID1" />
         <AssociationConnector Association="CommunityModel.FK_Visitors_Residents" />
+        <AssociationConnector Association="CommunityModel.FK_DashboardPosts_Residents" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

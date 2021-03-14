@@ -23,8 +23,18 @@ namespace FinalUI1.Models
             this.Services = new HashSet<Service>();
             this.HouseLists = new HashSet<HouseList>();
             this.Visitors = new HashSet<Visitor>();
+            this.DashboardPosts = new HashSet<DashboardPost>();
         }
-    
+
+        public Resident(string name, string password, string email_Emp, string type, string mobileNo, int houseno)
+        {
+            ResidentEmail = email_Emp;
+            ResidentMobileNo = mobileNo;
+            ResidentName = name;
+            ResidentPassword = password;
+            ResidentType = type;
+            ResidentHouseNo = houseno;
+        }
         public int ResidentID { get; set; }
         public string ResidentName { get; set; }
         public Nullable<int> ResidentHouseNo { get; set; }
@@ -32,18 +42,8 @@ namespace FinalUI1.Models
         public string ResidentMobileNo { get; set; }
         public string ResidentEmail { get; set; }
         public string ResidentPassword { get; set; }
-
-        public Resident(string name, string password, string email, string residenceType, string mobileNo, int houseNo)
-        {
-            ResidentEmail = email;
-            ResidentHouseNo = houseNo;
-            ResidentMobileNo = mobileNo;
-            ResidentName = name;
-            ResidentPassword = password;
-            ResidentType = residenceType;
-
-        }
-
+        public string isApproved { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Complaint> Complaints { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -56,5 +56,7 @@ namespace FinalUI1.Models
         public virtual ICollection<HouseList> HouseLists { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Visitor> Visitors { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DashboardPost> DashboardPosts { get; set; }
     }
 }

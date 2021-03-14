@@ -27,6 +27,7 @@ namespace FinalUI1.Models
         public string EmployeeMobileNo { get; set; }
         public string EmployeeEmail { get; set; }
         public string EmployeePassword { get; set; }
+        public string isApproved { get; set; }
 
         public Employee(string name, string password, string email_Emp, string mobileNo, string role)
         {

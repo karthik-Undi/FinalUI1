@@ -5,8 +5,7 @@
     Layout = "~/Views/Shared/_big.cshtml";
 }
 
-<h2>VisitorView</h2>
-
+<h2>Visitor List</h2>
 
 <div class="card">
 
@@ -16,11 +15,10 @@
         <h3 class="card-title">Employee Details</h3>
 
         <div class="card-tools">
+
+
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                <i class="fas fa-times"></i>
             </button>
         </div>
     </div>
@@ -29,8 +27,21 @@
 
 
 
+
     <div class="card-body">
         <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <div class="dt-buttons btn-group flex-wrap">
+                        @using (Html.BeginForm("ExportVisitor", "Export", FormMethod.Post))
+                        {
+                            <input class="btn btn-secondary buttons-copy buttons-html5" tabindex="0" aria-controls="example1" type="submit" value="Export to Excel" />
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <p></p>
             <div class="row">
                 <div class="col-sm-12">
                     <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
@@ -92,7 +103,6 @@
                         }
 
                     </table>
-
                 </div>
             </div>
         </div>
