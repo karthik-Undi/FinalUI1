@@ -61,22 +61,27 @@
                             @Html.ActionLink("Approve Registrations", "ApproveRegistrations", "Admin", new { @class = "nav-link" })
                         </li>
                         <li class="nav-item">
+                            @Html.ActionLink("Post a Notice", "CreatePost", "Admin", new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Delete Posts", "DeletePosts", "Admin", new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Visitor Log", "VisitorView", "Admin", new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
                             @Html.ActionLink("Resident Details", "ResidentView", "Admin", new { @class = "nav-link" })
                         </li>
-
                         <li class="nav-item">
                             @Html.ActionLink("Employee Details", "EmployeeView", "Admin", new { @class = "nav-link" })
                         </li>
                         <li class="nav-item">
                             @Html.ActionLink("Complaints", "ComplaintView", "Admin", new { @class = "nav-link" })
                         </li>
-
-                        <li class="nav-item">
-                            @Html.ActionLink("Visitor Log", "VisitorView", "Admin", new { @class = "nav-link" })
-                        </li>
                         <li class="nav-item">
                             @Html.ActionLink("Resident Family details", "FriendsandFamilyView", "Admin", new { @class = "nav-link" })
                         </li>
+
 
                     </ul>
                 </nav>

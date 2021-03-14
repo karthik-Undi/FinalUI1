@@ -12,7 +12,7 @@
                     <span style="margin-left:0px;" class="username">
                         @Html.DisplayFor(modelItem => item.Resident.ResidentName)
                     </span>
-                    <span style="margin-left:0px;" class="description">Shared at - @Html.DisplayFor(modelItem => item.PostTime). with @Html.DisplayFor(modelItem => item.PostIntendedFor)s</span>
+                    <span style="margin-left:0px;" class="description">Shared at - @Html.DisplayFor(modelItem => item.PostTime). with @Html.DisplayFor(modelItem => item.PostIntendedFor)</span>
                 </div>
                 <!-- /.user-block -->
                 <div class="card-tools">
@@ -28,7 +28,7 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <h6>Post Subject - @Html.DisplayFor(modelItem => item.PostType)</h6>
-                <h6>@Html.DisplayFor(modelItem => item.PostTitle)</h6>
+                <label>@Html.DisplayFor(modelItem => item.PostTitle)</label>
                 <!-- post text -->
 
                 <p>@Html.DisplayFor(modelItem => item.PostDescription)</p>

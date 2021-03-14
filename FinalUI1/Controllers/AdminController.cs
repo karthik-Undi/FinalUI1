@@ -7,6 +7,7 @@ using FinalUI1.Models;
 using FinalUI1.Models.ViewModels;
 using System.Data.Objects;
 using System.Net;
+using System.Data.Entity;
 
 namespace FinalUI1.Controllers
 {
@@ -204,6 +205,77 @@ namespace FinalUI1.Controllers
         }
 
 
+        public ActionResult CreatePost()
+        {
+            ViewBag.PostPostedBy = new SelectList(db.Residents, "ResidentID", "ResidentName");
+            return View();
+        }
+
+        // POST: DashboardPosts/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreatePost([Bind(Include = "PostID,PostPostedBy,PostTitle,PostType,PostDescription,PostIntendedFor,PostTime")] DashboardPost dashboardPost)
+        {
+
+            TempData["auth"] = 12;
+            int userid = Convert.ToInt32(TempData.Peek("auth"));
+
+            
+
+            if (ModelState.IsValid)
+            {
+                DashboardPost tempdashboardPost = new DashboardPost(userid, dashboardPost.PostTitle,
+                dashboardPost.PostType, dashboardPost.PostIntendedFor, dashboardPost.PostDescription, DateTime.Now);
+                db.DashboardPosts.Add(tempdashboardPost);
+                db.SaveChanges();
+                return RedirectToAction("AdminDashboard");
+            }
+
+            ViewBag.PostPostedBy = new SelectList(db.Residents, "ResidentID", "ResidentName", dashboardPost.PostPostedBy);
+            return View(dashboardPost);
+        }
+
+
+
+        public ActionResult DeletePosts()
+        {
+            TempData["auth"] = 12;
+            int userid = Convert.ToInt32(TempData.Peek("auth"));
+            if (db.DashboardPosts.Count(post => post.PostPostedBy == userid) == 0)
+            {
+                return RedirectToAction("NoApprovals");
+            }
+            else
+            {
+                return View(db.DashboardPosts.Where(post=>post.PostPostedBy==userid));
+            }
+        }
+
+        // GET: DashboardPosts/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            DashboardPost dashboardPost = db.DashboardPosts.Find(id);
+            if (dashboardPost == null)
+            {
+                return HttpNotFound();
+            }
+            return View(dashboardPost);
+        }
+
+        // POST: DashboardPosts/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            DashboardPost dashboardPost = db.DashboardPosts.Find(id);
+            db.DashboardPosts.Remove(dashboardPost);
+            db.SaveChanges();
+            return RedirectToAction("DeletePosts");
+        }
 
     }
 }

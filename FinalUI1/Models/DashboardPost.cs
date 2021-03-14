@@ -14,6 +14,20 @@ namespace FinalUI1.Models
     
     public partial class DashboardPost
     {
+        public DashboardPost(int postPostedBy, string postTitle, string postType, string postIntendedFor, string postDescription, DateTime? postTime)
+        {
+            this.PostPostedBy = postPostedBy;
+            this.PostTitle = postTitle;
+            this.PostType = postType;
+            this.PostIntendedFor = postIntendedFor;
+            this.PostDescription = postDescription;
+            this.PostTime = postTime;
+        }
+        public DashboardPost()
+        {
+
+        }
+
         public int PostID { get; set; }
         public int PostPostedBy { get; set; }
         public string PostTitle { get; set; }
