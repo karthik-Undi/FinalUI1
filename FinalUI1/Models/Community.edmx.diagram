@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="df97c87f37524c2c8a8829269702fd87" Name="Diagram1">
+        <EntityTypeShape EntityType="CommunityModel.Complaint" Width="1.5" PointX="5.25" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommunityModel.DashboardPost" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommunityModel.Employee" Width="1.5" PointX="6" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommunityModel.FriendsAndFamily" Width="1.5" PointX="5.25" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommunityModel.HouseList" Width="1.5" PointX="0.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommunityModel.Payment" Width="1.5" PointX="8.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommunityModel.Resident" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommunityModel.Service" Width="1.5" PointX="8.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CommunityModel.Visitor" Width="1.5" PointX="8.25" PointY="13.625" IsExpanded="true" />
+        <AssociationConnector Association="CommunityModel.FK_dbo_Complaints_dbo_Residents_ResidentID" ManuallyRouted="false" />
+        <AssociationConnector Association="CommunityModel.FK_DashboardPosts_Residents" ManuallyRouted="false" />
+        <AssociationConnector Association="CommunityModel.FK_dbo_Visitors_dbo_Employees_EmployeeID" ManuallyRouted="false" />
+        <AssociationConnector Association="CommunityModel.FK_Payments_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="CommunityModel.FK_Services_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="CommunityModel.FK_dbo_FriendsAndFamily_dbo_Residents_ResidentID" ManuallyRouted="false" />
+        <AssociationConnector Association="CommunityModel.FK_dbo_Payments_dbo_Residents_ResidentID" ManuallyRouted="false" />
+        <AssociationConnector Association="CommunityModel.FK_dbo_Services_dbo_Residents_ResidentID" ManuallyRouted="false" />
+        <AssociationConnector Association="CommunityModel.FK_Visitors_Residents" ManuallyRouted="false" />
+        <AssociationConnector Association="CommunityModel.Ownership" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

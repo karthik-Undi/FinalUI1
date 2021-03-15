@@ -1,0 +1,77 @@
+﻿@model FinalUI1.Models.ViewModels.OneForAll
+
+@{
+    ViewBag.Title = "ComplaintView";
+    Layout = "~/Views/Shared/_big.cshtml";
+}
+
+
+<div class="card">
+
+    <!-- /.card-header -->
+
+    <div class="card-header border-transparent">
+        <h3 class="card-title">Employee Details</h3>
+
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+
+        </div>
+    </div>
+    <!-- /.card-header -->
+
+
+
+
+    <div class="card-body">
+        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                        <tr>
+                            <th>
+                                Complaint Regarding
+                            </th>
+                            <th>
+                                Complaint Status
+                            </th>
+                            <th>
+                                Resident Name
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model.complaint)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ComplaintRegarding)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ComplaintStatus)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Resident.ResidentName)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ComplaintID }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.ComplaintID }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ComplaintID })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

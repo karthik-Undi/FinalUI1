@@ -1,0 +1,13 @@
+﻿@model FinalUI1.Models.ViewModels.OneForAll
+
+@{
+    ViewBag.Title = "ResidentDashboard";
+    Layout = "~/Views/Shared/_ResidentLayout.cshtml";
+}
+
+@{Html.RenderPartial("_AtAGlance"); }
+<h3 style="margin-left:10px" class="mt-4 mb-4">Community Noticeboard</h3>
+@{
+    Html.RenderPartial("_post");
+
+}

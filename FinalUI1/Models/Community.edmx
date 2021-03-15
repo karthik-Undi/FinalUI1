@@ -24,6 +24,7 @@
           <Property Name="PostType" Type="nvarchar(max)" />
           <Property Name="PostDescription" Type="nvarchar(max)" />
           <Property Name="PostIntendedFor" Type="nvarchar(max)" />
+          <Property Name="PostTime" Type="datetime" />
         </EntityType>
         <EntityType Name="Employees">
           <Key>
@@ -35,6 +36,7 @@
           <Property Name="EmployeeMobileNo" Type="nvarchar(max)" />
           <Property Name="EmployeeEmail" Type="nvarchar(max)" />
           <Property Name="EmployeePassword" Type="nvarchar(max)" />
+          <Property Name="isApproved" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="FriendsAndFamily">
           <Key>
@@ -67,7 +69,9 @@
           <Property Name="PaymentFor" Type="nvarchar(max)" />
           <Property Name="Amount" Type="nvarchar(max)" />
           <Property Name="ResidentID" Type="int" />
-          <Property Name="AmountPaidTo" Type="nvarchar(max)" />
+          <Property Name="AmountPaidTo" Type="int" />
+          <Property Name="PaymentStatus" Type="nvarchar(max)" />
+          <Property Name="ServiceID" Type="int" />
         </EntityType>
         <EntityType Name="Residents">
           <Key>
@@ -80,6 +84,7 @@
           <Property Name="ResidentMobileNo" Type="nvarchar(max)" />
           <Property Name="ResidentEmail" Type="nvarchar(max)" />
           <Property Name="ResidentPassword" Type="nvarchar(max)" />
+          <Property Name="isApproved" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Services">
           <Key>
@@ -106,6 +111,18 @@
           <Property Name="VisitorEntryStatus" Type="nvarchar(max)" />
           <Property Name="VisitorApprovedBy" Type="int" />
         </EntityType>
+        <Association Name="FK_DashboardPosts_Residents">
+          <End Role="Residents" Type="Self.Residents" Multiplicity="1" />
+          <End Role="DashboardPosts" Type="Self.DashboardPosts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="DashboardPosts">
+              <PropertyRef Name="PostPostedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_Complaints_dbo_Residents_ResidentID">
           <End Role="Residents" Type="Self.Residents" Multiplicity="0..1" />
           <End Role="Complaints" Type="Self.Complaints" Multiplicity="*" />
@@ -156,8 +173,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_Visitors_dbo_Residents_ResidentID">
-          <End Role="Employees" Type="Self.Employees" Multiplicity="1">
+        <Association Name="FK_dbo_Visitors_dbo_Employees_EmployeeID">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="Visitors" Type="Self.Visitors" Multiplicity="*" />
@@ -166,7 +183,7 @@
               <PropertyRef Name="EmployeeID" />
             </Principal>
             <Dependent Role="Visitors">
-              <PropertyRef Name="ResidentID" />
+              <PropertyRef Name="VisitorApprovedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -194,6 +211,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Payments_Employees">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="AmountPaidTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Services_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
           <End Role="Services" Type="Self.Services" Multiplicity="*" />
@@ -203,6 +232,18 @@
             </Principal>
             <Dependent Role="Services">
               <PropertyRef Name="EmployeeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visitors_Residents">
+          <End Role="Residents" Type="Self.Residents" Multiplicity="1" />
+          <End Role="Visitors" Type="Self.Visitors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Visitors">
+              <PropertyRef Name="ResidentID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -217,6 +258,10 @@
           <EntitySet Name="Residents" EntityType="Self.Residents" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Services" EntityType="Self.Services" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Visitors" EntityType="Self.Visitors" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DashboardPosts_Residents" Association="Self.FK_DashboardPosts_Residents">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="DashboardPosts" EntitySet="DashboardPosts" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_Complaints_dbo_Residents_ResidentID" Association="Self.FK_dbo_Complaints_dbo_Residents_ResidentID">
             <End Role="Residents" EntitySet="Residents" />
             <End Role="Complaints" EntitySet="Complaints" />
@@ -233,7 +278,7 @@
             <End Role="Residents" EntitySet="Residents" />
             <End Role="Services" EntitySet="Services" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Visitors_dbo_Residents_ResidentID" Association="Self.FK_dbo_Visitors_dbo_Residents_ResidentID">
+          <AssociationSet Name="FK_dbo_Visitors_dbo_Employees_EmployeeID" Association="Self.FK_dbo_Visitors_dbo_Employees_EmployeeID">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Visitors" EntitySet="Visitors" />
           </AssociationSet>
@@ -245,9 +290,17 @@
             <End Role="Residents" EntitySet="Residents" />
             <End Role="Ownership" EntitySet="Ownership" />
           </AssociationSet>
+          <AssociationSet Name="FK_Payments_Employees" Association="Self.FK_Payments_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
           <AssociationSet Name="FK_Services_Employees" Association="Self.FK_Services_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visitors_Residents" Association="Self.FK_Visitors_Residents">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="Visitors" EntitySet="Visitors" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -275,6 +328,8 @@
           <Property Name="PostType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PostDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PostIntendedFor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Resident" Relationship="Self.FK_DashboardPosts_Residents" FromRole="DashboardPosts" ToRole="Residents" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -286,7 +341,9 @@
           <Property Name="EmployeeMobileNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EmployeeEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EmployeePassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Visitors" Relationship="Self.FK_dbo_Visitors_dbo_Residents_ResidentID" FromRole="Employees" ToRole="Visitors" />
+          <Property Name="isApproved" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Visitors" Relationship="Self.FK_dbo_Visitors_dbo_Employees_EmployeeID" FromRole="Employees" ToRole="Visitors" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_Payments_Employees" FromRole="Employees" ToRole="Payments" />
           <NavigationProperty Name="Services" Relationship="Self.FK_Services_Employees" FromRole="Employees" ToRole="Services" />
         </EntityType>
         <EntityType Name="FriendsAndFamily">
@@ -315,7 +372,10 @@
           <Property Name="PaymentFor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Amount" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ResidentID" Type="Int32" />
-          <Property Name="AmountPaidTo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AmountPaidTo" Type="Int32" />
+          <Property Name="PaymentStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceID" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Payments_Employees" FromRole="Payments" ToRole="Employees" />
           <NavigationProperty Name="Resident" Relationship="Self.FK_dbo_Payments_dbo_Residents_ResidentID" FromRole="Payments" ToRole="Residents" />
         </EntityType>
         <EntityType Name="Resident">
@@ -329,10 +389,13 @@
           <Property Name="ResidentMobileNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ResidentEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ResidentPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="isApproved" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Complaints" Relationship="Self.FK_dbo_Complaints_dbo_Residents_ResidentID" FromRole="Residents" ToRole="Complaints" />
+          <NavigationProperty Name="DashboardPosts" Relationship="Self.FK_DashboardPosts_Residents" FromRole="Residents" ToRole="DashboardPosts" />
           <NavigationProperty Name="FriendsAndFamilies" Relationship="Self.FK_dbo_FriendsAndFamily_dbo_Residents_ResidentID" FromRole="Residents" ToRole="FriendsAndFamily" />
           <NavigationProperty Name="Payments" Relationship="Self.FK_dbo_Payments_dbo_Residents_ResidentID" FromRole="Residents" ToRole="Payments" />
           <NavigationProperty Name="Services" Relationship="Self.FK_dbo_Services_dbo_Residents_ResidentID" FromRole="Residents" ToRole="Services" />
+          <NavigationProperty Name="Visitors" Relationship="Self.FK_Visitors_Residents" FromRole="Residents" ToRole="Visitors" />
           <NavigationProperty Name="HouseLists" Relationship="Self.Ownership" FromRole="Residents" ToRole="HouseList" />
         </EntityType>
         <EntityType Name="Service">
@@ -361,7 +424,8 @@
           <Property Name="ResidentID" Type="Int32" Nullable="false" />
           <Property Name="VisitorEntryStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="VisitorApprovedBy" Type="Int32" />
-          <NavigationProperty Name="Employee" Relationship="Self.FK_dbo_Visitors_dbo_Residents_ResidentID" FromRole="Visitors" ToRole="Employees" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_dbo_Visitors_dbo_Employees_EmployeeID" FromRole="Visitors" ToRole="Employees" />
+          <NavigationProperty Name="Resident" Relationship="Self.FK_Visitors_Residents" FromRole="Visitors" ToRole="Residents" />
         </EntityType>
         <Association Name="FK_dbo_Complaints_dbo_Residents_ResidentID">
           <End Role="Residents" Type="Self.Resident" Multiplicity="0..1" />
@@ -375,8 +439,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_Visitors_dbo_Residents_ResidentID">
-          <End Role="Employees" Type="Self.Employee" Multiplicity="1">
+        <Association Name="FK_DashboardPosts_Residents">
+          <End Role="Residents" Type="Self.Resident" Multiplicity="1" />
+          <End Role="DashboardPosts" Type="Self.DashboardPost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="DashboardPosts">
+              <PropertyRef Name="PostPostedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Visitors_dbo_Employees_EmployeeID">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="Visitors" Type="Self.Visitor" Multiplicity="*" />
@@ -385,7 +461,19 @@
               <PropertyRef Name="EmployeeID" />
             </Principal>
             <Dependent Role="Visitors">
-              <PropertyRef Name="ResidentID" />
+              <PropertyRef Name="VisitorApprovedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Employees">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Payments" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="AmountPaidTo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -439,6 +527,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Visitors_Residents">
+          <End Role="Residents" Type="Self.Resident" Multiplicity="1" />
+          <End Role="Visitors" Type="Self.Visitor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Residents">
+              <PropertyRef Name="ResidentID" />
+            </Principal>
+            <Dependent Role="Visitors">
+              <PropertyRef Name="ResidentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="Ownership">
           <End Role="HouseList" Type="Self.HouseList" Multiplicity="*" />
           <End Role="Residents" Type="Self.Resident" Multiplicity="0..1" />
@@ -457,9 +557,17 @@
             <End Role="Residents" EntitySet="Residents" />
             <End Role="Complaints" EntitySet="Complaints" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_Visitors_dbo_Residents_ResidentID" Association="Self.FK_dbo_Visitors_dbo_Residents_ResidentID">
+          <AssociationSet Name="FK_DashboardPosts_Residents" Association="Self.FK_DashboardPosts_Residents">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="DashboardPosts" EntitySet="DashboardPosts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Visitors_dbo_Employees_EmployeeID" Association="Self.FK_dbo_Visitors_dbo_Employees_EmployeeID">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Visitors" EntitySet="Visitors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Employees" Association="Self.FK_Payments_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Payments" EntitySet="Payments" />
           </AssociationSet>
           <AssociationSet Name="FK_Services_Employees" Association="Self.FK_Services_Employees">
             <End Role="Employees" EntitySet="Employees" />
@@ -476,6 +584,10 @@
           <AssociationSet Name="FK_dbo_Services_dbo_Residents_ResidentID" Association="Self.FK_dbo_Services_dbo_Residents_ResidentID">
             <End Role="Residents" EntitySet="Residents" />
             <End Role="Services" EntitySet="Services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visitors_Residents" Association="Self.FK_Visitors_Residents">
+            <End Role="Residents" EntitySet="Residents" />
+            <End Role="Visitors" EntitySet="Visitors" />
           </AssociationSet>
           <AssociationSet Name="Ownership" Association="Self.Ownership">
             <End Role="HouseList" EntitySet="HouseLists" />
@@ -507,6 +619,7 @@
                 <ScalarProperty Name="PostType" ColumnName="PostType" />
                 <ScalarProperty Name="PostDescription" ColumnName="PostDescription" />
                 <ScalarProperty Name="PostIntendedFor" ColumnName="PostIntendedFor" />
+                <ScalarProperty Name="PostTime" ColumnName="PostTime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -519,6 +632,7 @@
                 <ScalarProperty Name="EmployeeMobileNo" ColumnName="EmployeeMobileNo" />
                 <ScalarProperty Name="EmployeeEmail" ColumnName="EmployeeEmail" />
                 <ScalarProperty Name="EmployeePassword" ColumnName="EmployeePassword" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -548,6 +662,8 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="ResidentID" ColumnName="ResidentID" />
                 <ScalarProperty Name="AmountPaidTo" ColumnName="AmountPaidTo" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -561,6 +677,7 @@
                 <ScalarProperty Name="ResidentMobileNo" ColumnName="ResidentMobileNo" />
                 <ScalarProperty Name="ResidentEmail" ColumnName="ResidentEmail" />
                 <ScalarProperty Name="ResidentPassword" ColumnName="ResidentPassword" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

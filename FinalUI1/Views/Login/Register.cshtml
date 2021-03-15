@@ -50,7 +50,7 @@
         @Html.EditorFor(model => model.CmpPassword, new { htmlAttributes = new { placeholder = "Confirm Password", @class = "form-control" } })<br />
         @if (TempData.Peek("reg_status_res") != null)
         {
-            <p style="color:orangered">@TempData["res"]</p>
+            <p style="color:black">@TempData["reg_status_emp"]</p>
         }
         <input type="submit" value="Create" class="btn btn-primary" />
         @Html.ActionLink("Clear", "Register", "Login", new { @class = "btn btn-primary" })

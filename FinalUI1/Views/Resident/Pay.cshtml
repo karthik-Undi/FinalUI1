@@ -1,0 +1,77 @@
+﻿@model IEnumerable<FinalUI1.Models.Payment>
+
+@{
+    ViewBag.Title = "Pay";
+    Layout = "~/Views/Shared/_ResidentLayout.cshtml";
+}
+
+<div class="card">
+
+    <!-- /.card-header -->
+
+    <div class="card-header border-transparent">
+        <h3 class="card-title">Pay for Services</h3>
+
+        <div class="card-tools">
+
+            <input id="search" type="text" placeholder="Search type">
+
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.card-header -->
+
+
+
+
+
+    <div class="card-body">
+        <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                        <tr>
+                            <th>
+                                Payment for
+                            </th>
+                            <th>
+                                Amount
+                            </th>
+                            <th>
+                                Paid to Employee ID
+                            </th>
+                            <th>
+                                Status
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaymentFor)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Amount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AmountPaidTo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PaymentStatus)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Pay", "PayforService", new { id = item.PaymentID })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

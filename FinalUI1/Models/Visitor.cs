@@ -24,5 +24,6 @@ namespace FinalUI1.Models
         public Nullable<int> VisitorApprovedBy { get; set; }
     
         public virtual Employee Employee { get; set; }
+        public virtual Resident Resident { get; set; }
     }
 }

@@ -11,15 +11,18 @@ namespace FinalUI1.Controllers
     public class LoginController : Controller
     {
         Community db = new Community();
-        // GET: Login
         public ActionResult Index()
         {
             return View();
         }
-        /// <summary>
-        /// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /// </summary>
-        /// <returns></returns>
+
+        public ActionResult NotApproved()
+        {
+            Session.Clear();
+            return View();
+        }
+
+
         public ActionResult Login()
         {
 
@@ -28,15 +31,24 @@ namespace FinalUI1.Controllers
         [HttpPost]
         public ActionResult Login(LoginAll loginAll)
         {
+            if(loginAll.Email=="admin@admin.com" && loginAll.Password == "11111111q!")
+            {
+                Session["auth"] = 12345;
+                return RedirectToAction("AdminDashboard", "Admin");
+            }
             if (loginAll.Role == "Resident")
             {
                 Resident tempResident = db.Residents.Where(res => res.ResidentEmail == loginAll.Email && res.ResidentPassword == loginAll.Password).SingleOrDefault();
+
+
                 if (tempResident != null)
                 {
-                    Session["userid"] = tempResident.ResidentID;
+                    if (tempResident.isApproved != "Approved")
+                        return RedirectToAction("Notapproved");
+                    Session["auth"] = tempResident.ResidentID;
                     TempData["username"] = tempResident.ResidentName;
                     TempData.Keep();
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("ResidentDashboard", "Resident");
                 }
                 else
                 {
@@ -48,12 +60,15 @@ namespace FinalUI1.Controllers
             else
             {
                 Employee tempEmployee = db.Employees.Where(res => res.EmployeeEmail == loginAll.Email && res.EmployeePassword == loginAll.Password).SingleOrDefault();
+
                 if (tempEmployee != null)
                 {
-                    Session["userid"] = tempEmployee.EmployeeID;
+                    if (tempEmployee.isApproved != "Approved")
+                        return RedirectToAction("Notapproved");
+                    Session["auth"] = tempEmployee.EmployeeID;
                     TempData["username"] = tempEmployee.EmployeeName;
                     TempData.Keep();
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("EmployeeDashboard", "Employee");
                 }
                 else
                 {
@@ -91,7 +106,8 @@ namespace FinalUI1.Controllers
                 tempHouse.HouseIsFree = "occupied";
 
                 db.SaveChanges();
-                TempData["reg_status_res"] = "Registration Successful";
+                //TempData["reg_status_res"] = "Registration Successful";
+                return RedirectToAction("Login");
 
 
 
@@ -124,16 +140,17 @@ namespace FinalUI1.Controllers
                 registration.Name,
                 registration.Password,
                 registration.Email_Emp,
-                registration.ResidenceType,
                 registration.MobileNo,
                 registration.Role
                 ));
 
                 db.SaveChanges();
-                TempData["reg_status_emp"] = "Registration Successful";
+                //TempData["reg_status_emp"] = "Registration Successful";
+                return RedirectToAction("Login");
+
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 TempData["reg_status_emp"] = "Something went wrong. " + e.Message;
             }

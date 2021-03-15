@@ -20,5 +20,24 @@ namespace FinalUI1.Models
         public string PostType { get; set; }
         public string PostDescription { get; set; }
         public string PostIntendedFor { get; set; }
+        public Nullable<System.DateTime> PostTime { get; set; }
+    
+        public virtual Resident Resident { get; set; }
+
+        public DashboardPost(int postPostedBy, string postTitle, string postType, string postIntendedFor, string postDescription, DateTime? postTime)
+        {
+            this.PostPostedBy = postPostedBy;
+            this.PostTitle = postTitle;
+            this.PostType = postType;
+            this.PostIntendedFor = postIntendedFor;
+            this.PostDescription = postDescription;
+            this.PostTime = postTime;
+        }
+
+        public DashboardPost()
+        {
+
+        }
+
     }
 }

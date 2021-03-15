@@ -36,7 +36,7 @@ namespace FinalUI1.Models.ViewModels
         [Remote("DoesEmailExist", "Login",ErrorMessage = "EmailId already exists in database.")]
         public string Email { get; set; }
 
-
+        [Required]
         [DataType(DataType.EmailAddress)]
         [Remote("DoesEmailExistinEmployees", "Login", ErrorMessage = "EmailId already exists in database.")]
         public string Email_Emp { get; set; }

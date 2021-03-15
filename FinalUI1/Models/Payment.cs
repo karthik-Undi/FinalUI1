@@ -18,8 +18,11 @@ namespace FinalUI1.Models
         public string PaymentFor { get; set; }
         public string Amount { get; set; }
         public Nullable<int> ResidentID { get; set; }
-        public string AmountPaidTo { get; set; }
+        public Nullable<int> AmountPaidTo { get; set; }
+        public string PaymentStatus { get; set; }
+        public Nullable<int> ServiceID { get; set; }
     
+        public virtual Employee Employee { get; set; }
         public virtual Resident Resident { get; set; }
     }
 }
