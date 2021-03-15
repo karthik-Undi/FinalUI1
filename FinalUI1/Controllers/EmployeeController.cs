@@ -23,6 +23,12 @@ namespace FinalUI1.Controllers
         {
             return View();
         }
+        public ActionResult Logout()
+        {
+            Session.Clear();
+
+            return RedirectToAction("Login", "Login");
+        }
 
         public ActionResult EmployeeDashboard()
         {

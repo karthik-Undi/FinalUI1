@@ -153,6 +153,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogoutController.cs" />
     <Compile Include="Controllers\ResidentController.cs" />
+    <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2465,6 +2466,15 @@
     <Content Include="Views\Shared\_SubmitPost.cshtml" />
     <Content Include="Views\Login\NotApproved.cshtml" />
     <Content Include="Views\Admin\Logout.cshtml" />
+    <Content Include="Views\Resident\Logout.cshtml" />
+    <Content Include="Views\Employee\Logout.cshtml" />
+    <Content Include="Views\Security\EmployeeView.cshtml" />
+    <Content Include="Views\Security\FriendsandFamilyView.cshtml" />
+    <Content Include="Views\Security\ResidentView.cshtml" />
+    <Content Include="Views\Security\VisitorView.cshtml" />
+    <Content Include="Views\Shared\_securityLayout.cshtml" />
+    <Content Include="Views\Security\SecurityDashboard.cshtml" />
+    <Content Include="Views\Security\AddVisitor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -24,7 +24,6 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -42,7 +41,7 @@
                         <img src="~/Content/unlock.png" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">@TempData.Peek("UserName")</a>
+                        <a href="#" class="d-block"> @TempData.Peek("UserName")</a>
                     </div>
                 </div>
 
@@ -50,47 +49,26 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-item">
-                            @Html.ActionLink("Home", "ResidentDashboard", "Resident", new { @class = "nav-link" })
+                            @Html.ActionLink("Home", "SecurityDashboard", "Admin", new { @class = "nav-link" })
                         </li>
                         <li class="nav-item">
-                            @Html.ActionLink("Add Visitors", "AddVisitor", "Resident", new { @class = "nav-link" })
+                            @Html.ActionLink("Approve Visitors", "ApproveRegistrations", "Admin", new { @class = "nav-link" })
+                        </li>
+                        
+                        <li class="nav-item">
+                            @Html.ActionLink("Visitor Log", "VisitorView", "Admin", new { @class = "nav-link" })
                         </li>
                         <li class="nav-item">
-                            @Html.ActionLink("Manage Visitors", "VieworDeleteVisitor", "Resident", new { @class = "nav-link" })
+                            @Html.ActionLink("Resident Details", "ResidentView", "Admin", new { @class = "nav-link" })
                         </li>
                         <li class="nav-item">
-                            @Html.ActionLink("Post a Notice", "CreatePost", "Resident", new { @class = "nav-link" })
+                            @Html.ActionLink("Employee Details", "EmployeeView", "Admin", new { @class = "nav-link" })
                         </li>
                         <li class="nav-item">
-                            @Html.ActionLink("Manage your Posts", "VieworDeletePosts", "Resident", new { @class = "nav-link" })
-                        </li>
-
-                        <li class="nav-item">
-                            @Html.ActionLink("Raise aComplaint", "RaiseComplaint", "Resident", new { @class = "nav-link" })
+                            @Html.ActionLink("Resident Family details", "FriendsandFamilyView", "Admin", new { @class = "nav-link" })
                         </li>
                         <li class="nav-item">
-                            @Html.ActionLink("Manage your Complaints", "VieworDeleteComplaints", "Resident", new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("Book a Service", "BookService", "Resident", new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("Manage Booked Services", "VieworDeleteServices", "Resident", new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("Add a friend or family", "AddFamily", "Resident", new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("Manage friends and family", "VieworDeleteFoF", "Resident", new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("Payments", "Pay", "Resident", new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("Payment History", "PaymentHistory", "Resident", new { @class = "nav-link" })
-                        </li>
-                        <li class="nav-item">
-                            @Html.ActionLink("Logout", "Logout", "Resident", new { @class = "nav-link" })
+                            @Html.ActionLink("Logout", "Logout", "Admin", new { @class = "nav-link" })
                         </li>
 
                     </ul>
@@ -119,7 +97,7 @@
                 Community Gate
             </div>
             <!-- Default to the left -->
-            <strong>Logged in as Resident</strong>
+            <strong>Logged in as Security officer</strong>
         </footer>
     </div>
 

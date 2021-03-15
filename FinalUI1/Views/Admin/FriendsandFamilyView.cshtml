@@ -13,7 +13,7 @@
     <!-- /.card-header -->
 
     <div class="card-header border-transparent">
-        <h3 class="card-title">Employee Details</h3>
+        <h3 class="card-title">Friends and family view</h3>
 
         <div class="card-tools">
             <input id="search" type="text" placeholder="Search name">
@@ -44,7 +44,6 @@
                             <th>
                                 residentname
                             </th>
-                            <th></th>
                         </tr>
 
                         @foreach (var item in Model.friendsAndFamily)
@@ -58,11 +57,6 @@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Resident.ResidentName)
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.FaFID }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.FaFID }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.FaFID })
                                 </td>
                             </tr>
                         }

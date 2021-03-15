@@ -1,20 +1,20 @@
 ﻿@model FinalUI1.Models.ViewModels.OneForAll
 
 @{
-    ViewBag.Title = "EmployeeView";
-    Layout = "~/Views/Shared/_big.cshtml";
+    ViewBag.Title = "ResidentView";
+    Layout = "~/Views/Shared/_securityLayout.cshtml";
 }
-
 
 <div class="card">
 
     <!-- /.card-header -->
 
     <div class="card-header border-transparent">
-        <h3 class="card-title">Employee Details</h3>
+        <h3 class="card-title">Residents Details</h3>
 
         <div class="card-tools">
             <input id="search" type="text" placeholder="Search name">
+
             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                 <i class="fas fa-minus"></i>
             </button>
@@ -30,13 +30,16 @@
         <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
             <div class="row">
                 <div class="col-sm-12">
-                    <table class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                    <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
                         <tr>
                             <th>
-                                Employee Name
+                                Resident Name
                             </th>
                             <th>
-                                Employee Department
+                                House Number
+                            </th>
+                            <th>
+                                Property Type
                             </th>
                             <th>
                                 Mobile Number
@@ -46,27 +49,28 @@
                             </th>
                         </tr>
 
-                        @foreach (var item in Model.employee)
+                        @foreach (var item in Model.resident)
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                                    @Html.DisplayFor(modelItem => item.ResidentName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.EmployeeRole)
+                                    @Html.DisplayFor(modelItem => item.ResidentHouseNo)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.EmployeeMobileNo)
+                                    @Html.DisplayFor(modelItem => item.ResidentType)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.EmployeeEmail)
+                                    @Html.DisplayFor(modelItem => item.ResidentMobileNo)
                                 </td>
-
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ResidentEmail)
+                                </td>
                             </tr>
                         }
 
                     </table>
-
                 </div>
             </div>
         </div>
@@ -90,5 +94,8 @@
         });
 
     });</script>
+
+
+
 
 
